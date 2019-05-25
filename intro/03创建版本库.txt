@@ -1,0 +1,228 @@
+-----------------------------创建版本库------------------------------------------
+1.什么式版本库呢？版本库又名仓库，英文名repository，你可以简单理解成一个目录，这个目录里
+  面的所有文件都可以被Git管理起来，每个文件的修改、删除、Git都能跟踪，以便任何时刻都可以
+  追踪礼事，或早在将来某个时刻可以“还原”。
+2.所以，创建一个版本库非常简单，首先，选择一个合适的地方，创建袷空目录：
+            $mkdir forgithub
+            $cd forgithub
+            $pwd
+            /e/temporary/git/forgithub
+      pwd命令用于显示当前目录。在我的电脑上，这个仓库位于  /e/temporary/git/forgithub
+    第二步，通过git init命令把这个目录变成Git可以管理的仓库
+            $git init
+            Initialized empty Git repository in E:/temporary/git/forgithub/.git/
+    瞬间Git就把仓库建好了，而且告诉你式一个空的仓库(empty Git repository),喜新的读者可
+      以发现当前目录下多个一个.git的目录，这个目录式Git来跟踪管理版本库的，没事千万不要
+      手动修改这个目录里的文件，不然改乱了，就把Git仓库给破环了。
+    如果没有看到.git目录，那是因为这个目录模式式隐藏的，用ls -ah命令就可以看见。
+
+把文件天津到版本库
+3.首先明确一下，所有的版本控制系统，其实只能跟踪文本文件的改动，比如txt文件，网页，所有
+  的程序代码等到，Git也不列外。版本控制系统可能告诉你每次的改动，比如在第5行加了一个单词
+  "Linux", 在第8行删除了一个单词"Windows"。而图片，视频这些二进制文件，虽然也能由版本控
+  制系统管理，但没法跟踪文件的变化，只能把二进制文件每次改动串起来，也就是只能知道图片从
+  100KB改成了120KB，但到底改了啥，版本控制系统不知道，也没法知道。
+
+  言归正传，现在我们编写一个readme.txt，文件，内容如下
+        Git is version control system.
+        Git is free software.
+  一定要放在learngit目录下(子目录也可以)，因为这是一个Git仓库，放到其他地方Git再厉害也
+    找不到这个文件。
+  把一个文件放到Git仓库里只需要两步。
+      第一步，用命令git add 告诉Git，把文件添加到仓库
+              $git add readme
+      执行上面的命令没有任何显示，这就对了，Unix的哲学式“没有消息就是好消息”，说明添加
+        成功。
+      第二步，用命令git commit 告诉Git把文件提交到仓库
+            $git commit -m "wrote a readme file"
+            [master (root-commit) 57db938] wrote a readme file
+             1 file changed, 2 insertions(+)
+             create mode 100644 readme.txt
+  简单解释一下git commit命令，-m后面输入的式本次提交的说明，可以输入任意内容，当然最好
+    是由意义的，这样你就能从礼事记录里方便的找到改动记录。
+  git commit 命令执行成功会告诉你，1 file changed：1个文件被改动(我们新添加的readme.txt);
+    2 insertions：插入了两行内容(readme.txt有两行内容)
+
+  为什么Git添加文件需要add，commit一共两步呢？因为commit可以一次提交很多文件，所以你可
+    以多次add不同的文件，比如：
+              $git add file1.txt
+              $git add file2.txt file3.txt
+              $git commit -m "add 3 files"
+    小结：
+      现在总结一下今天学的两点内容：
+        初始化一个Git仓库，使用git init命令
+        添加文件到Git仓库，分两步：
+          1.使用命令git add <file>, 注意，可以反复多次使用，添加多个文件；
+          2.使用命令git commit -m <message>, 完成
+
+---------------------------------时光穿梭机--------------------------------------
+1.继续修改readme.txt文件，改成如下内容
+              Git is a distributed version control system.
+              Git if free software.
+现在，运行git status 命令查看结果：
+              $ git status
+              On branch master
+              Changes not staged for commit:
+                (use "git add <file>..." to update what will be committed)
+                (use "git checkout -- <file>..." to discard changes in working directory)
+
+                      modified:   readme.txt
+
+              no changes added to commit (use "git add" and/or "git commit -a")
+    git status 命令可以让我们时刻掌握仓库当前的状态，上面的命令输出告诉我们，readme.txt
+      被修改过了，但还没有准备提交的修改。虽然Git告诉我们readme.txt 被修改了，但如果能
+      看看具体修改了什么内容，自然是很好的。比如你休息两周回来，第一天上班时，已经记不清
+      上次怎么修改的readme.txt, 所以，需要用git diff 这个命令看看。
+                $ git diff readme.txt
+                diff --git a/readme.txt b/readme.txt
+                index 23bc09e..9247db6 100644
+                --- a/readme.txt
+                +++ b/readme.txt
+                @@ -1,2 +1,2 @@
+                -Git is version control system.
+                +Git is a distributed version control system.
+                 Git is free software.
+      git diff 顾名思义就是查看difference，显示的格式正式Unix通用的diff格式，可以从上
+        面的命令输出看到，我们再第一行添加了一个distributed单词。
+      知道了对readme.txt 做了什么修改后，再把它提交到仓库就放心多了，提交修改和提交新文
+        件时一样的两步，第一步时：git add
+                $ git add readme.txt
+      同样没有任何输出，再执行第二步git commit之前，我们再运行git status查看当前仓库的状态
+                $ git status
+                On branch master
+                Changes to be committed:
+                  (use "git reset HEAD <file>..." to unstage)
+
+                        modified:   readme.txt
+      git status 告诉我们，将要被提交的修改包括readme.txt,下一步，就可以放心地提交了：
+              $ git commit -m "add distributed"
+              [master a742d9e] add distributed
+               1 file changed, 1 insertion(+), 1 deletion(-)
+      提交后，我们再用git status 命令查看仓库当前的状态
+              $ git status
+              On branch master
+              nothing to commit, working tree clean
+      Git告诉我们当前没有需要提交的修改，而且，工作目录时感觉(working tree clean)的
+      小结：
+        1.要随时掌握工作区的状态，使用git status命令
+        2.如果git status告诉你有文件被修改过，用git diff 可以查看修改内容。
+
+----------------------------------版本回退---------------------------------------
+1.现在，你已经学回了修改文件，然后把修改提交到Git版本库，现在，再练习一次，修改readme.txt
+  文件如下：
+              Git is a distributed version control system.
+              Git is free software distributed under the GPL.
+    然后尝试提交：
+              $ git add readme.txt
+              $ git commit -m "append GPL"
+    每当我们觉得文件修改到一定程度的时候，就可以“保持一个快照”，这个快照在Git中被称为
+      commit。一旦你把文件改乱了，或早误删了，还可以从最近的一个commit恢复，然后继续工
+      作，而不是把几个月的工作成果全部丢失。
+    在Git中，我们用 git log 命令查看历史记录
+              $ git log
+    git log 命令显示从最近到最远的提交日志，我们可以看到3次提交，最近一次时append GPL，
+      上一次时add distributed，最早的一次时wrote a readme file
+    如果嫌输出信息太多，看的眼花缭乱，可以试试加上 --pretty=oneline参数
+              $ git log --pretty=oneline
+    需要友情提示的时，我们看到的一大串类是3b15d3f18f7c7a33760486b6c011620cd211388b的
+      时commit id（版本号），和SVN不一样，commit id不是1，2，3...递增的数字，而是一个
+      SHA1计算出来的一个非常大的数字，用十六进制表示。为什么commit id需要用这么一大串数
+      字表示呢？因为Git时分布式的版本控制系统。
+    每提交一个新版本，实际上Git就会把他们自动传承一条时间先。如果使用可视化工具查看Git
+      历史，就可以更清楚地看到提交历史的时间线：
+    好了，现在我们启动时光穿梭机，准备把readme.txt回退到上一个版本，也就是add distribute
+      的那个版本，怎么做呢？
+    首先，Git必须知道当前版本时那个版本，在Git中，用HEAD表示当前版本，也就是最新的提交
+      3b15d3...(注意每个人的ID肯定不同)，上一个版本HEAD^,上上一个版本就是HEAD^^,当然
+      往上100个版本写100个^比较容易数不过来，所以携程HEAD~100.
+    现在，我们要把当前版本append GPL回退到上一个版本 add distributed,就可以使用git
+      reset命令：
+              $ git reset --hard HEAD^
+    还可以继续回退到上一个版本wrote a readme file, 不过且慢，我们用git log再看看现在
+      版本库的状态：
+              $git log
+    最新的那个版本append GPL已经看不到了，好比你从21世纪坐时光穿梭机来到了19世纪，再想
+      回去已经回不去了，肿么办了？
+    办法其实还是有的，只要上面的命令行窗口还没有被关掉，你就可以顺着往上找，找到那个
+      append GPL的commit id时3b15d3...,于是就可以指定回到未来的某个版本。
+            $ git reset --hard 3b15d3
+    版本号没必要写全，前几位就可以了，Git会自动去找，当然也不能只写前两位，因为Git可能会
+      找到多个版本，就无法确定时哪个了。
+    Git的版本回退速度非常快，因为Git的内部有个指向当前版本的HEAD指针，当你回退版本的时
+      候，Git仅仅时把HEAD从指向append GPL：改为指向add distributed
+    然后顺便把工作区的内容更新了，所以你让HEAD指向哪个版本号，就把当前版本定位在哪。
+    现在，你回退到了某个版本，关掉了电脑，第二天早上后就后悔了，想恢复到新版本怎么办？找
+      不到新版本的commit id怎么办？
+    在Git中，总是有后悔药可以吃的。当你用$ git reset --hard HEAD^ 回退到add distributed
+      版本时，在想恢复到append GPL，就必须找到append GPL的commit id。Git提供了一个命令
+      git reflog用来记录你的每一次命令：
+            $ git reflog
+    小结：
+      1.HEAD指向的版本就是当前版本，一次，Git允许我们在版本礼事之间穿梭，使用命令
+        git reset --hard commit_id.
+      2.穿梭前，用git log 可以查看提交历史，一遍确定要回退到哪个版本。
+      3.要重返未来，用git reflog查看命令历史，以便确定回到未来的哪个版本。
+
+-----------------------------------工作区和暂存区--------------------------------
+1.Git和其他版本控制系统如SVN的一个不同之处就是有暂存区的概念。
+  工作区(Working Directory)
+    就是你在电脑里能看到的目录，比如这里的learngit文件夹就是一个工作区。
+  版本库(Repository)
+    工作区有一个隐藏目录 .git, 这个不算工作区，而是Git的版本库。
+
+    Git的版本库里存放了很多东西，其中最重要的就是成为stage(或者叫index)的暂存区，还有
+      Git为我们自动创建的第一个分支master，以及指向master的一个指针HEAD。
+
+    把文件往Git版本库里添加的时候，是分两步执行的：
+      第一步是用 git add 把文件添加进去，实际上就是把文件修改添加到暂存区。
+      第二步时用 git commit 提交更改，实际上就是把暂存区的所有内容提交到当前分支。
+
+    因为我们创建Git版本库时，Git自动为我们创建了唯一一个master分支，所以，现在git commit
+      就是往master分支上提交更改。
+    可以理解为，需要提交的文件修改通通放到暂存区，然后，一次性提交暂存区的所有修改。
+
+    现在我们再练习一遍，先对readme.txt做一个修改，比如加上一行内容：
+                Git is a distributed version control system.
+                Git is free software distributed under the GPL.
+                Git has a mutable index called stage.
+    然后，在工作区新增一个LICENSE文本文件(内容随意写)
+    先用git status 查看一下状态
+                $ git status
+                On branch master
+                Changes not staged for commit:
+                  (use "git add <file>..." to update what will be committed)
+                  (use "git checkout -- <file>..." to discard changes in working directory)
+
+                        modified:   readme.txt
+
+                Untracked files:
+                  (use "git add <file>..." to include in what will be committed)
+
+                        LICENSE.txt
+
+                no changes added to commit (use "git add" and/or "git commit -a")
+    Git非常清楚的告诉我们，readme.txt被修改了，而LICENSE还从来没有被添加过，所以它的状态
+      是Untracked
+    现在，使用两次命令 git add 把 readme.txt 和 LICENSE都添加后，用git status再看一下：
+                $ git add readme.txt LICENSE.txt
+                $ git status
+                On branch master
+                Changes to be committed:
+                  (use "git reset HEAD <file>..." to unstage)
+
+                        new file:   LICENSE.txt
+                        modified:   readme.txt
+    所以，git add 命令实际上就是把要提交的所有修改放到暂存区(Stage),然后，执行git commit
+      就可以一次性把暂存区的所有修改都提交到分支。
+              $ git commit -m "understand how stage works"
+              [master 40bff6e] understand how stage works
+              2 files changed, 2 insertions(+)
+              create mode 100644 LICENSE.txt
+    一旦提交后，如果你没有对工作区做任何修改，那么工作区就是"干净的":
+              $ git status
+              On branch master
+              nothing to commit, working tree clean
+
+      小结：
+        暂存区是Git非常重要的概念，弄明白了暂存区，就弄明白了Git的很多操作到底干了什么。
+        

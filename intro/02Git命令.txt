@@ -1,0 +1,26 @@
+1.windows下安装完成以后，还需要设置名称，邮箱
+            $git config --global user.name "Your Name"
+            $git config --global user.email "email@example.com"
+
+2.创建文件，以及查看目录
+            $mkdir learngit
+            $cd learngit
+            $pwd    //pwd命令用于显示当前目录
+3.通过git init命令把这个目录变成Git可以管理的仓库
+            $git init
+            Initialized empty Git repository in E:/temporary/git/forgithub/.git/
+
+            $git add readme.txt
+            $git commit -m "wrote a readme file"
+
+            $git add work/  提交work文件夹以及work文件夹下的内容，注意不能提交空文件夹
+
+            $ git status
+            $ git diff
+
+            $ git log
+            $ git log --pretty=oneline
+
+            $ git reset --hard HEAD^  回退到上一个版本
+            $ git reset --hard <commit_id>  回退到指定的版本
+            $ git reflog  查看提交历史的版本号。
