@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <div id = "app">
+      <input type="text" name="" value="" v-model = "message" />
+      {{ message }}
+      <input v-bind:value = "mgs" @input="change" />
+      {{ mgs }}
+    </div>
+  </body>
+  <script src="./../lib/vue.js" charset="utf-8"></script>
+  <script type="text/javascript">
+    new Vue({
+      el: "#app",
+      data(){
+        return{
+          message: "",
+          mgs: "Hello"
+        }
+      },
+      methods: {
+        change(e){
+          console.log(e);
+          //this.mgs += e.data
+          this.mgs = e.target.value
+        }
+      },
+      template:  ``
+    })
+  </script>
+</html>

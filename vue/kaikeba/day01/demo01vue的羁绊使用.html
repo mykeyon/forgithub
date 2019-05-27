@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <div id = "app">
+      <!-- vue的模板语法{{}} 双大括号  react{} -->
+      <h2>{{msg}}</h2>
+      <h3>{{ isTrue }}</h3>
+      <h1>{{ mess.split("").reverse().join("") }}</h1>
+      <h2>{{ 1 > 2 ? "真的" : "假得" }}</h2>
+      <!-- 插入对象时，一定要加入空格，否则会报错 -->
+      <h1>{{ {name: "狗娃"} }}</h1>
+    </div>
+  </body>
+  <!-- 引包 -->
+  <script src="./../lib/vue.js" charset="utf-8"></script>
+  <script type="text/javascript">
+    //创建实例化对象
+    //如果template中定义饿了内容，那么有限加载template，如果没有定义内容那么加载#app的模板
+    let vm = new Vue({
+      el: "#app", //目的地
+      data: function(){ //数据发生改变是，试图发生改变 -----> 数组驱动试图
+        return{
+          //数据属性
+          msg: "黄瓜",
+          isTrue: 1 == 1,
+          message: "大葱",
+          mess: "Hello World"
+        }
+      },
+      template: ``
+    });
+    console.log(vm);
+    console.log(vm.$el === document.getElementById("app"));
+    //除了数据属性，vue实例还暴露了一些有用的实例属性和方法。他们都有前缀$
+  </script>
+</html>

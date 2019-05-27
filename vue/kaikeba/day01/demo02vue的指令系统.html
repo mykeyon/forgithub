@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+      .box{
+        width: 300px;
+        height: 300px;
+        background-color: red;
+      }
+      .active{
+        background-color: cyan;
+      }
+    </style>
+  </head>
+  <body>
+    <div id = "app">
+
+    </div>
+  </body>
+  <script src="./../lib/vue.js" charset="utf-8"></script>
+  <script type="text/javascript">
+    /*
+        双大括号插值
+        v-text ------> innerHText
+        v-html ------> innerHTML
+        v-if  -------> 数据属性对应值如果为假则不在页面中渲染反之亦然
+        v-show-------> 控制dom元素的显示隐藏，display:none|black
+
+        v-bind -----> 绑定标签上的属性(内置的属性和自定义属性) 简写 :
+          v-bind:属性 = "{属性名：属性值}"  v-bind:class = "{active: true}"
+          简写          :class = "{active: true}"
+        v-on ------->
+          v-on:事件名 = "函数名"   简便写法   @
+
+        v-for = "(item,index) in menuList"
+    */
+    //实例化对象
+    new Vue({
+      el: "#app",
+      data: function(){
+        return{
+          msg: "指令系统",
+          msg2: "<h2>插入标签的指令系统</h2>",
+          active: true,
+          menuList: [
+            { id: 1, name: "大腰子", price: 10 },
+            { id: 2, name: "羊肉串", price: 5 },
+            { id: 3, name: "扇贝", price: 12 }
+          ],
+          person: {
+            name: "张三",
+            age: 22,
+            love: "音乐"
+          }
+        }
+      },
+      template:`
+        <div class = "app">
+          <h2>{{ msg }}</h2>
+          <p v-text = "msg"></p>
+          <div v-html = "msg2"></div>
+          <div v-if = 1>正确</div>
+          <div v-else>错误</div>
+          <div class = "box" v-bind:class = "{active: active}"></div>
+          <button v-on:click = "active = !active">切换</button>
+          <button @click = "change">切换2</button>
+          <ul>
+            <li v-for = "item in menuList" >
+              <div key = "item.id">
+                <span>{{item.id}}</span>
+                <span>{{item.name}}</span>
+                <span>{{item.price}}</span>
+              </div>
+            </li>
+          </ul>
+          <ol>
+            <li v-for = "(key,value) in person">
+              {{ key }} ---------> {{ value }}
+            </li>
+          </ol>
+        </div>
+      `,
+      methods: {
+        change(){
+          //vue内部通过this调用data下的数据
+          this.active = !this.active
+        }
+      }
+    })
+  </script>
+</html>

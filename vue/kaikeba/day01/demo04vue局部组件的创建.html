@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <div id = "app">
+
+    </div>
+  </body>
+  <script src="./../lib/vue.js" charset="utf-8"></script>
+  <script type="text/javascript">
+    //创建局部组件
+    var App = {
+      data(){
+        return{
+
+        }
+      },
+      methods:{
+        myclick(){
+          //查看组件的this
+          console.log(this);
+        }
+      },
+      template: `
+        <div @click = "myclick">我是入口组件</div>
+
+      `
+    }
+    var vm = new Vue({
+      el: "#app",
+      data(){
+        return{
+
+        }
+      },
+      template: `
+        <App />
+      `,
+      components: {
+        App,
+      }
+    });
+    console.log(vm);
+  </script>
+</html>
