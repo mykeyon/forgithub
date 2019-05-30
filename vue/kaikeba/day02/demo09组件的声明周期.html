@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <div id = "app">
+
+    </div>
+  </body>
+  <script src="./../lib/vue.js" charset="utf-8"></script>
+  <script type="text/javascript">
+    Vue.component("Test",{
+      data(){
+        return{
+          msg: "Hello World"
+        }
+      },
+      template: `
+        <div>
+          <div>{{ msg }}</div>
+        </div>
+      `,
+      beforeCreate(){
+        //组件创建之前，类是与react的componentWillMount
+
+      },
+      created(){
+        //组件创建之后，componentDidMount
+        //使用该组件，就会调用created方法
+        //在created这个方法中可以操作后端的数据，数据驱动视图
+        //应用发送ajax请求
+        
+      }
+    })
+    var App = {
+      data(){
+        return{
+
+        }
+      },
+      template: `
+        <div class = "app">
+          <Test />
+        </div>
+      `
+    }
+    new Vue({
+      el: "#app",
+      components: {
+        App
+      },
+      template: `
+        <App />
+      `
+    })
+  </script>
+</html>
