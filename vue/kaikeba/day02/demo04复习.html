@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <div id = "app">
+
+    </div>
+  </body>
+  <script src="./../lib/vue.js" charset="utf-8"></script>
+  <script type="text/javascript">
+
+    let Child = {
+      data(){
+        return{
+          msg: "我是子组件"
+        }
+      },
+      props: ["toChildData"],
+      template: `
+        <div>
+          <input v-model = "toChildData" @input = "clickchild(toChildData)" />
+          {{msg}}
+          {{ toChildData }}
+        </div>
+      `,
+      methods: {
+        clickchild(val){
+          this.$emit("clickParent",val);
+        }
+      }
+    }
+    Vue.component('Parent',{
+      data(){
+        return{
+          message: "我是父组件",
+          tochild: "传递到子组件的数据"
+        }
+      },
+      components:{
+        Child
+      },
+      template: `
+        <div>
+            <div>{{ message }}</div>
+            <Child :toChildData = "tochild" @clickParent = "clickpar" />
+        </div>
+      `,
+      methods: {
+        clickpar(val){
+          console.log(val);
+        }
+      }
+    });
+    new Vue({
+      el: "#app",
+      data: {
+
+      },
+      template: `
+        <Parent />
+      `
+    })
+  </script>
+</html>

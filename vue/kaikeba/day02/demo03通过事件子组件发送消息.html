@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <div id = "app">
+
+    </div>
+  </body>
+  <script src="./../lib/vue.js" charset="utf-8"></script>
+  <script type="text/javascript">
+  /**
+    子组件往父组件传值时：
+    1.在父组件中绑定自定义的事件
+    2.在子组件中触发原生的事件，在函数中使用$emit触发自定义的childHandler
+  */
+    Vue.component("Child",{
+      props: [ "childData" ],
+      template: `
+        <div>
+          <p>我是子组件</p>
+          <input v-model = "childData" @input = 'changeValue(childData)'/>
+        </div>
+      `,
+      methods: {
+        changeValue(val){
+          this.$emit('childHandler',val)
+        }
+      }
+    });
+    Vue.component("Parent",{
+      data(){
+        return{
+          msg: "我是传到子组件的数据"
+        }
+      },
+      template: `
+        <div>
+          <div>我是父组件</div>
+          <Child :childData = "msg" @childHandler = "childHandler" />
+        </div>
+      `,
+      methods: {
+        childHandler(val){
+          console.log(val)
+        }
+      }
+    });
+    let App = {
+      template: `
+        <Parent />
+      `
+    }
+    new Vue({
+      el: "#app",
+      components: {
+        App
+      },
+      template: `
+        <App />
+      `
+    })
+  </script>
+</html>

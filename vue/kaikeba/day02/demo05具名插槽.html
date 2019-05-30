@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <div id = "app">
+
+    </div>
+  </body>
+  <script src="./../lib/vue.js" charset="utf-8"></script>
+  <script type="text/javascript">
+    Vue.component("myLi",{
+      template: `
+        <li>
+        1.
+          <slot name = "two"></slot>
+          2.<slot name = "three"></slot>
+        </li>
+      `
+    })
+    let App = {
+      template: `
+        <div>
+          <ul>
+            <myLi>
+              <h2 slot = "two">1</h2>
+              <h3 slot = "three">2</h3>
+            </myLi>
+          </ul>
+        </div>
+      `
+    }
+    new Vue({
+      el: "#app",
+      components: {
+        App
+      },
+      template: `
+        <App />
+      `
+    })
+  </script>
+</html>

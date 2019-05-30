@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <div id = "app">
+      <input type="text" v-model = "msg" value="">
+      <h3>{{ msg }}</h3>
+      <button type="button" @click = "stus[0].name = '狗蛋'" name="button">变狗蛋</button>
+      <h2>{{ stus }}</h2>
+    </div>
+  </body>
+  <script src="./../lib/vue.js" charset="utf-8"></script>
+  <script type="text/javascript">
+    /*
+      watch 监听的是单个属性
+      基本的数据类型 简单监听
+      复杂的数据类型 深度监听
+    */
+    new Vue({
+      el: "#app",
+      data(){
+        return{
+          msg: "",
+          stus: [{ name: "nick" }]
+        }
+      },
+      watch: {
+        msg: function(newV,oldV){
+          console.log(newV, oldV);
+        },
+        //监听 数组和对象时
+        stus: {
+          deep: true,//深度监视
+          handler: function(newV,oldV){
+            console.log(newV[0], oldV)
+          }
+        }
+      }
+    })
+  </script>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <div id = "app">
+
+    </div>
+  </body>
+  <script src="./../lib/vue.js" charset="utf-8"></script>
+  <script type="text/javascript">
+    Vue.component("Child",{
+      props: [ "childData" ],
+      template: `
+        <div>
+          <div>我是子组件</div>
+          <h1>{{ childData }}</h1>
+        </div>
+      `
+    })
+    //1.父组件往子组件传值时，先在父组件通过bind绑定数据
+    //2.在自组件里使用props接受父组件传递的数值
+    //3.只要子组件通过props接受，就可以任意使用
+    Vue.component('Parent',{
+      data(){
+        return{
+          msg: "我是父组件传过来的"
+        }
+      },
+      template: `
+        <div>
+          <p>我是父组件</p>
+          <Child v-bind:childData = "msg"/>
+        </div>
+      `
+    })
+    let App = {
+      data(){
+        return{
+
+        }
+      },
+      components: {
+
+      },
+      template: `
+        <div>
+          <Parent />
+        </div>
+      `,
+
+    }
+    new Vue({
+      el: "#app",
+      data(){
+        return{
+
+        }
+      },
+      components: {
+        App
+      },
+      template: `
+        <App />
+      `
+    })
+  </script>
+</html>
