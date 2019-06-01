@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <div id = "app">
+
+    </div>
+  </body>
+  <script src="./../lib/vue.js" charset="utf-8"></script>
+  <script src="./../lib/vue-router.js" charset="utf-8"></script>
+  <script type="text/javascript">
+    //创建登录的模块
+    var Login = {
+      template: `
+        <div>我是登录的模块</div>
+      `
+    }
+    var Register = {
+      template: `
+        <div>我是注册的模块</div>
+      `
+    }
+    var router = new VueRouter({
+      //配置路由
+      routes: [
+        //路由匹配的规则
+        {
+          path: '/login',
+          component: Login
+        },
+        {
+          path: "/register",
+          component: Register
+        }
+      ]
+    })
+    var App = {
+      template: `
+        <div>
+          <router-link to = "/login">登录页面</router-link>
+          <router-link to = "/register">注册页面</router-link>
+          <router-view></router-view>
+        </div>
+      `
+    }
+    new Vue({
+      el: "#app",
+      data(){
+        return{
+
+        }
+      },
+      router,
+      components: {
+        App
+      },
+      template: `
+        <App />
+      `
+    })
+  </script>
+</html>

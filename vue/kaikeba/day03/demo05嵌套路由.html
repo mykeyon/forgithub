@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <div id = "app">
+
+    </div>
+  </body>
+  <script src="./../lib/vue.js" charset="utf-8"></script>
+  <script src="./../lib/vue-router.js" charset="utf-8"></script>
+  <script type="text/javascript">
+
+    var App = {
+      template: `
+        <div>
+          <router-link :to = "{name: 'home'}">首页</router-link>
+          <router-view></router-view>
+        </div>
+      `
+    }
+    var Home = {
+      template: `
+        <div>
+          <p>项目首页</p>
+          <router-link to = "/home/movie">电影</router-link>
+          <router-link to = "/home/music">音乐</router-link>
+          <router-view></router-view>
+        </div>
+      `
+    }
+    var Movie = {
+      template: `
+        <div>我是电影频道</div>
+      `
+    }
+    var Music = {
+      template: `
+        <div>我是音乐频道</div>
+      `
+    }
+
+    var router = new VueRouter({
+      routes: [
+        {
+          path: "/home",
+          component: Home,
+          name: "home",
+          children: [
+            {
+              path: "movie",
+              component: Movie,
+              name: "movie"
+            },{
+              path: "music",
+              component: Music,
+              name: "music"
+            }
+          ]
+        }
+      ]
+    })
+    new Vue({
+      el: "#app",
+      components: {
+        App
+      },
+      router,
+      template: `
+        <App />
+      `
+    })
+  </script>
+</html>

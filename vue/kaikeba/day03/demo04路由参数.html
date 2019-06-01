@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <div id = "app">
+
+    </div>
+  </body>
+  <script src="./../lib/vue.js" charset="utf-8"></script>
+  <script src="./../lib/vue-router.js" charset="utf-8"></script>
+  <script type="text/javascript">
+    /**
+      1.xxx.html#/user/1 params动态路由参数
+      2.ooo.html#/user?userId=1
+
+    */
+    var UserParams = {
+      template: `
+        <div>我是用户1</div>
+      `,
+      created(){
+        console.log(this.$router);
+        console.log(this.$route);
+      }
+    }
+    var UserQuery = {
+      template: `
+        <div>我是用户2</div>
+      `
+    }
+    var router = new VueRouter({
+      routes: [
+        {
+          path: '/user/:id',
+          component: UserParams,
+          name: 'userP'
+        },{
+          path: '/user',
+          component: UserQuery,
+          name: 'userQ'
+        }
+      ]
+    })
+    var App = {
+      template: `
+        <div>
+          <router-link :to = "{name: 'userP', params: {id: 1}}">用户1</router-link>
+          <router-link :to = "{name: 'userQ', query: {userId: 2}}">用户2</router-link>
+          <router-view></router-view>
+        </div>
+      `
+    }
+    new Vue({
+      el: "#app",
+      data: {
+
+      },
+      router,
+      components:{
+        App
+      },
+
+      template: `
+        <App />
+      `
+    })
+
+
+
+
+  </script>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <div id = "app">
+
+    </div>
+  </body>
+  <script src="./../lib/vue.js" charset="utf-8"></script>
+  <script type="text/javascript">
+    var App = {
+      data(){
+        return{
+
+        }
+      },
+      template: `
+        <div class = "app">
+          <button ref = "btn">我是按钮</button>
+        </div>
+      `,
+      created(){
+        console.log(this.$refs.btn)
+      },
+      mounted(){
+        console.log(this.$refs.btn)
+      }
+    }
+    new Vue({
+      el: "#app",
+      data(){
+        return{
+
+        }
+      },
+      components: {
+        App
+      },
+      template: `
+        <App />
+      `
+    })
+  </script>
+</html>
