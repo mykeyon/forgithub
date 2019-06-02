@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <div id = "app">
+
+    </div>
+  </body>
+  <script src="./../lib/vue.js" charset="utf-8"></script>
+  <script src="./../lib/vue-router.js" charset="utf-8"></script>
+  <script type="text/javascript">
+    /**
+      提醒一些，当使用路由参数时，例如从/timeline/frontend导航到/timeline/backend,
+        原来的组件实例会被复用，因为两个路由都渲染同一个组件，比起销毁再创建，复用则
+        显得更高效。不过这页意味着组件的生命周期钩子不会再被调用。
+
+    */
+
+    var Timeline = {
+      template: `
+        <div id = "timeline">
+          <router-link :to = "{name: 'comDesc', params: {id: 'frontend'}}">前端</router-link>
+          <router-link :to = "{name: 'comDesc', params: {id: 'backend'}}">后端</router-link>
+          <router-view></router-view>
+        </div>
+      `
+    }
+    var Pins = {
+      template: `
+        <div>
+          我是沸点
+        </div>
+      `
+    }
+    var ComDesc = {
+      data(){
+        return{
+          msg: ""
+        }
+      },
+      template: `
+        <div>
+          我是{{msg}}
+        </div>
+      `,
+      created(){
+        console.log(this.$route)
+        console.log(this.$route.param);
+        this.msg = "我是大前端"
+      },
+      watch: {
+        '$route'(to,from){
+          console.log(to,from);
+          //再当前的组件内部监听路由纤细的变化
+          if(to.params.id == 'backend'){
+            this.msg = "咱是后端"
+          }else{
+            this.msg = "我是小前端"
+          }
+        }
+      }
+    }
+    var router = new VueRouter({
+      routes: [
+        {
+          path: '/timeline',
+          component: Timeline,
+          children: [
+            {
+              name: 'comDesc',
+              //动态路由参数，以冒号开头
+              path: '/timeline/:id',
+              component: ComDesc
+            }
+          ]
+        },{
+          path: '/pins',
+          component: Pins
+        }
+      ]
+    })
+    var App = {
+      template: `
+        <div>
+          <router-link to = "/timeline">首页</router-link>
+          <router-link to = "/pins">沸点</router-link>
+          <router-view></router-view>
+        </div>
+      `
+    }
+    new Vue({
+      el: "#app",
+      router,
+      components: {
+        App
+      },
+      template: `
+        <App />
+      `
+    })
+  </script>
+</html>

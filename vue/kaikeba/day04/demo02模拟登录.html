@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <div id = "app">
+      <router-link to="/home">首页</router-link>
+      <router-link to="/blog">我的博客</router-link>
+      <router-link to="/login">登录</router-link>
+      <a href="javascript:void(0)">退出</a>
+      <router-view></router-view>
+    </div>
+  </body>
+  <script src="./../lib/vue.js" charset="utf-8"></script>
+  <script src="./../lib/vue-router.js" charset="utf-8"></script>
+  <script type="text/javascript">
+    /**
+      meta 的使用
+    */
+    //目前不用，将来时局部的vue时需要挂载使用
+    Vue.use(VueRouter);
+    var Home = {
+      template: `
+        <div>我是首页信息</div>
+      `
+    }
+    var Blog = {
+      template: `
+        <div>我是博客信息</div>
+      `
+    }
+    var Login = {
+      data(){
+        return{
+          name: "",
+          pwd: ""
+        }
+      },
+      template: `
+        <div>
+            <input type = "text" v-model = "name" />
+            <input type = "password" v-model = "pwd" />
+            <input type = "button" value = "登录" @click = "loginHandler" />
+        </div>
+      `,
+      methods: {
+        loginHandler(){
+          //登录
+          localStorage.setItem('user', { name: this.name, pwd: this.pwd });
+          //把密码和用户名保存再localhost后跳转到博客页
+          this.$router.push({
+            name: 'blog'
+          })
+        }
+      }
+    }
+    var router = new VueRouter({
+      routes: [
+        {
+          path: '/',
+          redirect: '/home'
+        },{
+          path: "/home",
+          component: Home
+        },{
+          path: "/blog",
+          name: 'blog',
+          component: Blog,
+          meta: {
+            auth: true  //给未来的路由做权限控制
+          }
+        },{
+          path: '/login',
+          component: Login
+        }
+      ]
+    });
+    router.beforeEach((to,form,next) =>{
+      console.log(to);
+      console.log(form);
+
+      if(to.meta.auth){
+        //表示用户点击了博客
+        if(localStorage.getItem('user')){
+          next()
+        }else{
+          next({
+            path: '/login'
+          })
+        }
+      }else{
+        next()
+      }
+      //next()
+    })
+    new Vue({
+      el: "#app",
+      router
+    })
+  </script>
+</html>
