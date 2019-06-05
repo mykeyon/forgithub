@@ -1,0 +1,42 @@
+历史介绍：
+  1.2009年初，commonjs规范还未出来，此时前端开发人员编写的代码都是非模块化的。
+    那个时候开发人员经常需要十分留意文件加载顺序所带来的依赖问题
+  2.于此同时nodejs开启了js全栈大门，而requirejs再国外也带动着前端逐步实现模块化
+    i. 同时国内seajs也进行了大力推广
+    ii. AMD规范，具体实现时
+      requirejs define('模块id',[模块依赖1, 模块依赖2],function(){return;}),
+        ajax请求文件并加载。
+    iii. commonjs || CMD 规范seajs 淘宝玉伯
+      (1) commonjs 和 cmd 非常相似的
+        cmd require / module.exports
+      (2) commonjs 是js再后端语言的规范，模块，文件操作，操作系统底层
+      (3) CMD 仅仅是模块定义
+      (4) UMD通用模块定义，一种既能兼容amd也能兼容commonjs也能兼容浏览器环境
+          运行的万能代码。
+  3. npm/bower 集中管理的方式备受青睐，12年browserify/webpack诞生
+    (1) npm是可以下载前后端的js代码 475000 个包
+    (2) bower只能下载前端的js代码，bower在下载bootstrap的时候会自动下载jquery
+    (3) browserify 解决让require可以运行在浏览器，分析require的关系，组装代码
+    (4) webpack 打包工具，占市场主流。
+
+
+  (function(root,factory){
+    if(typeof exprots === "object"){
+      module exports = factory(); //commonjs环境下能拿到返回值
+    }else(type define === 'function'){
+      define(factory); //define(function(){ return 'a' })  //AMD
+    }else{
+      window eventUtil = factory()
+    }
+  })(this,function(){
+    //module
+    return {
+      //具体模块代码
+      addEvent: function(el, type, handle){
+        //...
+      },
+      removeEvent: function(el, type, handle){
+        //...
+      }
+    }
+  });

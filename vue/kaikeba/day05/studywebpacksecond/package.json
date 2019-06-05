@@ -1,0 +1,20 @@
+{
+  "name": "studywebpacksecond",
+  "version": "1.0.0",
+  "description": "\"不知道为什么babel编译后，require为undefined，webpack又不能走命令行，只能在package.json里规定运行方式\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack ./main.js ./build.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "vue": "^2.6.10",
+    "vue-router": "^3.0.6"
+  },
+  "devDependencies": {
+    "webpack": "^3.12.0",
+    "webpack-cli": "^3.3.2"
+  }
+}
